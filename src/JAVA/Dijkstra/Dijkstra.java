@@ -22,7 +22,7 @@ public class Dijkstra {
                 {M,M,M,M,0}
         };
 
-        int start=0;
+        int start=2;
         int[] shortPath = dijkstra(weight2,start);
 
         for(int i = 0;i < shortPath.length;i++)
