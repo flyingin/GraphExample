@@ -1,32 +1,27 @@
 package JAVA.Dijkstra;
 
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by yml on 16/5/17.
  */
 public class Dijkstra {
     private static int M = 10000; //此路不通
-    public static void main(String[] args) {
-        int[][] weight1 = {//邻接矩阵
-                {0,3,2000,7,M},
-                {3,0,4,2,M},
-                {M,4,0,5,4},
-                {7,2,5,0,6},
-                {M,M,4,6,0}
-        };
+    public static void main(String[] args) throws IOException {
+        int[][] weight = GetMatrix("/Users/yml/IdeaProjects/GraphExample/input/case3.csv");
 
-        int[][] weight2 = {
-                {0,10,M,30,100},
-                {M,0,50,M,M},
-                {M,M,0,M,10},
-                {M,M,20,0,60},
-                {M,M,M,M,0}
-        };
-
-        int start=2;
-        int[] shortPath = dijkstra(weight2,start);
+        int start = 4;
+        int[] shortPath = dijkstra(weight,start);
 
         for(int i = 0;i < shortPath.length;i++)
             System.out.println("从"+start+"出发到"+i+"的最短距离为："+shortPath[i]);
+
+
     }
 
     public static int[] dijkstra(int[][] weight, int start) {
@@ -70,5 +65,49 @@ public class Dijkstra {
         }
         System.out.println("=====================================");
         return shortPath;
+
     }
+    public static  int[][] GetMatrix(String fileName)throws IOException {
+
+            List<Integer> NodeList = new ArrayList<>();//存储点的个数
+            List<List<Integer>> VerList = new ArrayList<List<Integer>>(); //存储边的关系
+            FileReader fr = new FileReader(fileName);
+            BufferedReader bf = new BufferedReader(fr);
+            String Line = "";
+            while((Line = bf.readLine())!=null){
+                String []records = Line.split(",");
+                if(!NodeList.contains(Integer.valueOf(records[1]))){
+                    NodeList.add(Integer.valueOf(records[1]));
+                }
+                if(!NodeList.contains(Integer.valueOf(records[2]))){
+                    NodeList.add(Integer.valueOf(records[2]));
+                }
+                List<Integer> list = new ArrayList<Integer>();
+                list.add(Integer.valueOf(records[1]));
+                list.add(Integer.valueOf(records[2]));
+                list.add(Integer.valueOf(records[3]));
+                VerList.add(list);
+            }
+            int [][]weight = new int[NodeList.size()][NodeList.size()];
+            for(int i=0;i<NodeList.size();i++){
+                for(int j=0;j<NodeList.size();j++){
+                    if(i!=j)
+                        weight[i][j] = M;
+                    else
+                        weight[i][j] = 0;
+                }
+            }
+            for(List<Integer> list:VerList){
+                int start = list.get(0);
+                int end = list.get(1);
+                int time = list.get(2);
+                weight[start][end] = time;
+            }
+            bf.close();
+            fr.close();
+            return weight;
+
+
+    }
+
 }
