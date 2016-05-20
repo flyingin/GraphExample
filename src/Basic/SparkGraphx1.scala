@@ -93,36 +93,7 @@ object SparkGraphx1 {
     graph.persist(StorageLevel.MEMORY_ONLY)
     graph.unpersistVertices(true)
 
-    //GraphLoader构建Graph
-    var path = "/user/hadoop/data/temp/graph/graph.txt"
-    var minEdgePartitions = 1
-    var canonicalOrientation = false // if sourceId < destId this value is true
-    val graph1 = GraphLoader.edgeListFile(sc, path, canonicalOrientation, minEdgePartitions,
-        StorageLevel.MEMORY_ONLY, StorageLevel.MEMORY_ONLY)
-
-    val verticesCount = graph1.vertices.count
-    println(s"verticesCount: $verticesCount")
-    graph1.vertices.collect().foreach(println)
-
-    val edgesCount = graph1.edges.count
-    println(s"edgesCount: $edgesCount")
-    graph1.edges.collect().foreach(println)
-
-    //PageRank
-    val pageRankGraph = graph1.pageRank(0.001)
-    pageRankGraph.vertices.sortBy(_._2, false).saveAsTextFile("/user/hadoop/data/temp/graph/graph.pr")
-    pageRankGraph.vertices.top(5)(Ordering.by(_._2)).foreach(println)
-
-    //Connected Components
-    val connectedComponentsGraph = graph1.connectedComponents()
-    connectedComponentsGraph.vertices.sortBy(_._2, false).saveAsTextFile("/user/hadoop/data/temp/graph/graph.cc")
-    connectedComponentsGraph.vertices.top(5)(Ordering.by(_._2)).foreach(println)
-
-    //TriangleCount主要用途之一是用于社区发现 保持sourceId小于destId
-    val graph2 = GraphLoader.edgeListFile(sc, path, true)
-    val triangleCountGraph = graph2.triangleCount()
-    triangleCountGraph.vertices.sortBy(_._2, false).saveAsTextFile("/user/hadoop/data/temp/graph/graph.tc")
-    triangleCountGraph.vertices.top(5)(Ordering.by(_._2)).foreach(println)
+    
 
     sc.stop()
   }
