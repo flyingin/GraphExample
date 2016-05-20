@@ -54,6 +54,8 @@ object SparkGraphx1 {
     val outDegrees: VertexRDD[Int] = graph.outDegrees
     outDegrees.collect().foreach(println)
 
+
+
     //构建子图
     val subGraph = graph.subgraph(vpred = (id, attr) => attr._2 != "Missing")
     subGraph.vertices.collect().foreach(println(_))
@@ -88,12 +90,9 @@ object SparkGraphx1 {
       }
     }
 
-    //缓存。默认情况下,缓存在内存的图会在内存紧张的时候被强制清理，采用的是LRU算法
-    graph.cache()
-    graph.persist(StorageLevel.MEMORY_ONLY)
-    graph.unpersistVertices(true)
-
     
+
+
 
     sc.stop()
   }
