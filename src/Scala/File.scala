@@ -8,8 +8,8 @@ import scala.util.Random
   */
 object File {
   def main(args: Array[String]) {
-    val file = Source.fromFile("/Users/yml/Downloads/web-Google.txt")
-    val writer = new PrintWriter(new File("input/case4.csv"))
+    val file = Source.fromFile("")
+    val writer = new PrintWriter(new File(""))
     var count = 0
     for(line <- file.getLines()){
       val record = line.split("\t")
