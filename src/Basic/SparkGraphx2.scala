@@ -16,12 +16,13 @@ object SparkGraphx2 {
     val sc = new SparkContext("local[*]", "Spark Graphx")
 
     //通过GraphGenerators构建一个随机图
-    val numVertices = 100
+    val numVertices = 10
     val numEParts = 2
     val mu = 4.0
     val sigma = 1.3
     val graph: Graph[Double, Int] = GraphGenerators.logNormalGraph(
       sc, numVertices, numEParts, mu, sigma).mapVertices((id, _) => id.toDouble)
+
 
     graph.triplets.collect.foreach(triplet => println(triplet.srcId + "-" + triplet.srcAttr + "-" +
       triplet.attr + "-" + triplet.dstId + "-" + triplet.dstAttr))

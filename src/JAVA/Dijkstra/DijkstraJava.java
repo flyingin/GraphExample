@@ -10,12 +10,12 @@ import java.util.List;
 /**
  * Created by yml on 16/5/17.
  */
-public class Dijkstra {
+public class DijkstraJava {
     private static int M = 10000; //此路不通
     public static void main(String[] args) throws IOException {
-        int[][] weight = GetMatrix("/Users/yml/IdeaProjects/GraphExample/input/case3.csv");
+        int[][] weight = GetMatrix("/Users/yml/IdeaProjects/GraphExample/input/case1.csv");
 
-        int start = 4;
+        int start = 0;
         int[] shortPath = dijkstra(weight,start);
 
         for(int i = 0;i < shortPath.length;i++)
